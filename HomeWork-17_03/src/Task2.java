@@ -52,15 +52,10 @@ public class Task2 {
     }
 
     void checkCustomers() {
-        Iterator<String> names = map.keySet().iterator();
-        ArrayList<Map> customers = new ArrayList(map.values());
-        for (int i = 0; i < customers.size(); i++) {
-            Iterator<String> orders = customers.get(i).keySet().iterator();
-            ArrayList<Integer> much = new ArrayList(customers.get(i).values());
-            System.out.println(names.next() + ":");
-            for (int j = 0; j < much.size(); j++) {
-                System.out.println("\t" + orders.next() + " - " + much.get(j));
-            }
+        for (Map.Entry<String, Map<String, Integer>> entry : map.entrySet()) {
+            System.out.println(entry.getKey() + ":");
+            for (Map.Entry<String, Integer> entry1 : entry.getValue().entrySet())
+                System.out.println("\t" + entry1.getKey() + " - " + entry1.getValue());
         }
     }
 }

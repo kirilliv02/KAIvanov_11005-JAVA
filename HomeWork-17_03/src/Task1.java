@@ -16,11 +16,8 @@ public class Task1 {
             }
 
         }
-        ArrayList<Integer> values = new ArrayList<>(map.values());
-        Set<String> keys = map.keySet();
-        Iterator<String> keysIterator = keys.iterator();
-        for (int i = 0; i < keys.size(); i++) {
-            System.out.println(keysIterator.next() + " - " + values.get(i));
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            System.out.println(entry.getKey() + " - " + entry.getValue());
         }
         System.out.println("---------------\nВсего слов: " + map.size());
     }
