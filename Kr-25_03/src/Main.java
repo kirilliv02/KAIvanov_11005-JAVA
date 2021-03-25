@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.TreeSet;
 
 public class Main {
@@ -16,6 +15,7 @@ public class Main {
             addToArray(str);
             line = reader.readLine();
         }
+        reader.close();
 
         BuyerByNameComparator buyerByNameComparator = new BuyerByNameComparator();
         BuyerByCityCountComparator buyerByCityCountComparator = new BuyerByCityCountComparator();
@@ -49,31 +49,30 @@ public class Main {
         if (buyers.size() == 0) {
             buyers.add(buyer);
         } else {
-            for (int i = 0; i < buyers.size(); i++) {
-                if (checkNameBuyer(buyerName)) {
-                    int idCity = checkNameCity(buyers.get(i).cities, cityName);
-                    if (idCity != -1) {
-                        int idOrder = checkNameOrder(buyers.get(i).cities.get(idCity).orders, orderName);
-                        if (idOrder != -1) {
-                            buyers.get(i).cities.get(idCity).orders.get(idOrder).count += count;
-                        } else {
-                            buyers.get(i).cities.get(idCity).orders.add(order);
-                        }
+            int idBuyer = checkNameBuyer(buyerName);
+            if (idBuyer != -1) {
+                int idCity = checkNameCity(buyers.get(idBuyer).cities, cityName);
+                if (idCity != -1) {
+                    int idOrder = checkNameOrder(buyers.get(idBuyer).cities.get(idCity).orders, orderName);
+                    if (idOrder != -1) {
+                        buyers.get(idBuyer).cities.get(idCity).orders.get(idOrder).count += count;
                     } else {
-                        buyers.get(i).cities.add(city);
+                        buyers.get(idBuyer).cities.get(idCity).orders.add(order);
                     }
                 } else {
-                    buyers.add(buyer);
+                    buyers.get(idBuyer).cities.add(city);
                 }
+            } else {
+                buyers.add(buyer);
             }
         }
     }
 
-    static boolean checkNameBuyer(String name) {
-        for (Buyer buyer : buyers) {
-            if (buyer.name.equals(name)) return true;
+    static int checkNameBuyer(String name) {
+        for (int i = 0; i < buyers.size(); i++) {
+            if (buyers.get(i).name.equals(name)) return i;
         }
-        return false;
+        return -1;
     }
 
     static int checkNameCity(ArrayList<City> cities, String name) {
