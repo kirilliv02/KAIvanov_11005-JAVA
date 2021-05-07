@@ -1,6 +1,7 @@
 package Task_3;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class Main {
@@ -9,23 +10,16 @@ public class Main {
 
     public static void main(String[] args) {
         storage.addListener(() -> storage.readProducts().forEach(System.out::println));
-        storage.addListener(() -> {
-            ArrayList<Product> products = storage.readProducts();
-            int sum = 0;
-            for (Product product : products) {
-                sum += product.count;
-            }
-            System.out.println("Общее занятое место на складе: " + sum);
-        });
-        storage.addListener(() -> {
-            ArrayList<Product> products = storage.readProducts();
-            Product maxProduct = products.get(0);
-            for (Product product : products) {
-                if (product.count > maxProduct.count)
-                    maxProduct = product;
-            }
-            System.out.println("Товара с наибольшим количеством: " + maxProduct.name);
-        });
+        storage.addListener(() -> System.out.println("Общее занятое место на складе: " + storage.readProducts().stream()
+                .map(x -> x.count)
+                .reduce(Integer::sum)
+                .get()
+        ));
+        storage.addListener(() -> System.out.println("Товара с наибольшим количеством: " + storage.readProducts().stream()
+                .max(Comparator.comparingInt(x -> x.count))
+                .get()
+                .name
+        ));
         new Main().menu();
     }
 
