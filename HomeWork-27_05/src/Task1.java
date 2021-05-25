@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Task1 {
-    static long factorial = 1;
+    static volatile long factorial = 1;
     static int x;
 
     public static void main(String[] args) throws InterruptedException {

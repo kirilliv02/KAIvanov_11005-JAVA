@@ -7,29 +7,30 @@ public class Task2 {
     static ArrayList<String> words = new ArrayList<>();
     static ArrayList<String> evenWords = new ArrayList<>();
     static ArrayList<String> unEvenWords = new ArrayList<>();
+
     public static void main(String[] args) throws FileNotFoundException, InterruptedException {
         File file = new File("./input.txt");
         Scanner sc = new Scanner(file);
 
-        while (sc.hasNext()){
+        while (sc.hasNext()) {
             String word = sc.next().toLowerCase();
-            if (!checkWord(word)){
+            if (!checkWord(word)) {
                 words.add(word.toLowerCase());
             }
         }
 
-        Thread thread1 = new Thread(()->{
+        Thread thread1 = new Thread(() -> {
             for (String word : words) {
-                if (word.length() % 2 == 1) {
+                if (uniqSymbols(word) % 2 == 1) {
                     System.out.println("Поток 1, слово " + word);
                     unEvenWords.add(word);
                 }
             }
         });
 
-        Thread thread2 = new Thread(()->{
+        Thread thread2 = new Thread(() -> {
             for (String word : words) {
-                if (word.length() % 2 == 0) {
+                if (uniqSymbols(word) % 2 == 0) {
                     System.out.println("Поток 2, слово " + word);
                     evenWords.add(word);
                 }
@@ -45,12 +46,23 @@ public class Task2 {
         System.out.println(evenWords);
     }
 
-    static boolean checkWord(String word){
+    static boolean checkWord(String word) {
         for (String s : words) {
             if (s.equals(word)) {
                 return true;
             }
         }
         return false;
+    }
+
+    static int uniqSymbols(String word) {
+        ArrayList<Character> list = new ArrayList<>();
+
+        for (int i = 0; i < word.length(); i++) {
+            if (!list.contains(word.charAt(i))) {
+                list.add(word.charAt(i));
+            }
+        }
+        return list.size();
     }
 }
