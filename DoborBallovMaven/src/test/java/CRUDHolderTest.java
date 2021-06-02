@@ -1,6 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.NoSuchElementException;
+
 public class CRUDHolderTest {
 
     CRUDHolder<Person> crudHolder;
@@ -19,7 +21,7 @@ public class CRUDHolderTest {
         crudHolder.create(person1);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void createTestFailed(){
         crudHolder.create(person);
         crudHolder.create(person);
@@ -31,7 +33,7 @@ public class CRUDHolderTest {
         crudHolder.read(0).print();
     }
 
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void readTestFailed() {
         crudHolder.create(person);
         crudHolder.read(1).print();
@@ -43,7 +45,7 @@ public class CRUDHolderTest {
         crudHolder.update(person);
     }
 
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void updateFailed() {
         crudHolder.create(person);
         crudHolder.update(person1);
@@ -55,7 +57,7 @@ public class CRUDHolderTest {
         crudHolder.delete(person);
     }
 
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void deleteFailed() {
         crudHolder.create(person);
         crudHolder.delete(person1);
