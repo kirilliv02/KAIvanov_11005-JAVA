@@ -18,4 +18,13 @@ public class Person implements Comparable<Person>, Printable {
         System.out.println(name + " " + age);
     }
 
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.toString().equals(obj.toString());
+    }
 }
